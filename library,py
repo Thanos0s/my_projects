@@ -1,0 +1,411 @@
+import mysql.connector as ab
+mycon= ab.connect(host="localhost",user="root",passwd="akhil242001y2j",database="library")
+
+def addbook():
+    b=input("Enter book name:")
+    c=input("Enter book code:")
+    a=int(input("Enter aisle no.:"))
+    n=input("Enter Author's name:")
+    s=input("Enter Subject or Genre:")
+    pr=("Present")
+    data=(b,c,s,a,n,pr)
+    sql='insert into availablebooks values(%s,%s,%s,%s,%s,%s)'
+    co=mycon.cursor()
+    co.execute(sql,data)
+    mycon.commit()
+    print("Data Entered Successfully")
+    p=input("Wanna return to selection menu?(Yes/No)")
+    if p=="Yes"or p=="yes":
+        addbook()
+    else:
+        pass
+    menu()
+
+    
+
+def avail():
+    sql='select * from availablebooks'
+    co=mycon.cursor()
+    co.execute(sql)
+    result=co.fetchall()
+    print("[Book name]                   [Book Code]       [Subject\Genre]    [Aisle Number]            [Author]                                [Presence]")
+    for s in result:
+        j="#"
+        print("{:30s} {:<20} {:<20} {:<20} {:40s} {:<20}".format(s[0],s[1],s[2],s[3],s[4],s[5]))
+    menu()
+
+   
+   
+def find():
+    
+    a=int(input("Enter 1 to search by name and 2 to search by subject\genre:"))
+    j=0
+    if a==1:
+        
+        j=input("Enter name of the book:")
+        
+        sql="select * from availablebooks where bookname LIKE'%"+j+"%'"
+        co=mycon.cursor()
+        co.execute(sql)
+        result=co.fetchall()
+        for s in result:
+            print("{:<20} {:<20} {:<20} {:<20}".format(s[0],s[1],s[2],s[3]))
+    elif a==2:
+        j=input("Enter Subject\Genre:")
+        sql="select * from availablebooks where subject='"+j+"'"
+        co=mycon.cursor()
+        co.execute(sql)
+        result=co.fetchall()
+        for s in result:
+            print("{:<20} {:<20} {:<20} {:<20}".format(s[0],s[1],s[2],s[3]))
+    else:
+        print("Invalid Response")
+        find()
+    p=input("Wanna return to selection menu?(Yes/No)")
+    if p=="Yes"or p=="yes":
+        find()
+    else:
+        pass
+    menu()
+
+def members():
+    o=int(input("Enter 1 to add member and 2 to access existing data"))
+    if o==1:
+        a=input("Enter name")
+        b=input("Enter beginning date")
+        c=input("Enter ending date")
+        d=input("Enter Perks of the plan")
+        e=input("Enter the plan's price")
+        data=(a,b,c,d,e)
+        sql='insert into membership values(%s,%s,%s,%s,%s)'
+        co=mycon.cursor()
+        co.execute(sql,data)
+        mycon.commit()
+        print("Data Entered Successfully")
+        menu()
+    elif o==2:
+    
+        sql='select * from membership'
+        co=mycon.cursor()
+        co.execute(sql)
+
+        result=co.fetchall()
+        for i in result:
+            j="#"
+            print(j,"[Member's Name]:",i[0],"[Beginning Date]:",i[1],"[Ending Date]:",i[2],"[Perks]:",i[3],"[Plan]:",i[4])
+        menu()
+    else:
+        print("Invalid Response")
+        members()
+    p=input("Wanna return to selection menu?(Yes/No)")
+    if p=="Yes"or p=="yes":
+        members()
+    else:
+        pass
+    menu()
+
+def emp():
+    o=int(input("Enter 1 to add employee,2 to access existing data,3 to modify data"))
+    if o==1:
+        a=input("Enter Employee's Name")
+        b=input("Enter Employee ID")
+        c=input("Enter Post")
+        d=int(input("Enter Salary"))
+        e=input("Enter Contact number")
+        data=(a,b,c,d,e)
+        sql='insert into employees values(%s,%s,%s,%s,%s)'
+        co=mycon.cursor()
+        co.execute(sql,data)
+        mycon.commit()
+        print("Data Entered Successfully")
+        p=input("Wanna return to selection menu?(Yes/No)")
+        if p=="Yes"or p=="yes":
+            emp()
+        else:
+            pass
+                
+            menu()
+    
+    elif o==2:
+    
+        sql='select * from employees'
+        co=mycon.cursor()
+        co.execute(sql)
+
+        result=co.fetchall()
+        for i in result:
+            j="#"
+            print(j,"[Employee's Name]:",i[0],"[ID]:",i[1],"[Post]:",i[2],"[Salary]:",i[3],"[Contact no.]:",i[4])
+        p=input("Wanna return to selection menu?(Yes/No)")
+        if p=="Yes"or p=="yes":
+            emp()
+        else:
+            pass
+        menu()
+    elif o==3:
+        p=int(input("Enter 1 to delete record,2 to modify salary,3 to change post,4 to change contact no."))
+
+        if p==1:
+            j=input("Enter Employee Name")
+            sql="delete from employees where Name='"+j+"'"
+            co=mycon.cursor()
+            co.execute(sql)
+            mycon.commit()
+            print("Data deleted successfully")
+            
+        if p==2:
+            j=input("Enter the new salary")
+            i=input("Enter Employee name")
+            sql="Update employees set salary='"+j+"'where Name Like '%"+i+"%'"
+            co=mycon.cursor()
+            co.execute(sql)
+            mycon.commit()
+            print ("Salary Updated")
+            
+        if p==3:
+            j=input("Enter the new post")
+            i=input("Enter Employee name")
+            sql="Update employees set post='"+j+"'where Name Like '%"+i+"%'"
+            co=mycon.cursor()
+            co.execute(sql)
+            mycon.commit()
+            print ("Post Updated")
+            p=input("Wanna return to selection menu?(Yes/No)")
+            if p=="Yes"or p=="yes":
+                emp()
+            else:
+                pass
+            menu()
+        if p==4:
+            j=input("Enter the new contact no.")
+            i=input("Enter Employee name")
+            sql="Update employees set contactno='"+j+"'where Name Like '%"+i+"%'"
+            co=mycon.cursor()
+            co.execute(sql)
+            mycon.commit()
+            print ("Contact Updated")
+        p=input("Wanna return to selection menu?(Yes/No)")
+        if p=="Yes"or p=="yes":
+            emp()
+        else:
+            pass
+        menu()
+    else:
+        print("Invalid response")
+        emp()
+   
+    
+def issue():
+    o=int(input("Enter 1 to add issued book,2 to access existing data"))
+    if o==1:
+        a=input("Enter Bookname")
+        b=int(input("Enter Bookcode"))
+        c=input("Enter Issue date")
+        d=input("Enter Deadline date")
+        e=input("Enter Contact Number")
+        f=input("Enter name")
+        data=(a,b,c,d,e,f)
+        sql='insert into issue values(%s,%s,%s,%s,%s,%s)'
+        co=mycon.cursor()
+        co.execute(sql,data)
+        mycon.commit()
+        print("Data Entered Successfully")
+        k=0
+        while k==0:
+            
+            j=("Issued")
+            sql="Update availablebooks set presence='"+j+"'where Bookname Like '%"+a+"%'"
+            co=mycon.cursor()
+            co.execute(sql)
+            mycon.commit()
+            break
+        
+        
+        p=input("Wanna return to selection menu?(Yes/No)")
+        if p=="Yes"or p=="yes":
+            issue()
+        else:
+            pass
+        menu()
+    if o==2:
+        
+        sql='select * from issue'
+        co=mycon.cursor()
+        co.execute(sql)
+
+        result=co.fetchall()
+        for i in result:
+            j="#"
+            print(j,"[Book Name]:",i[0],"[Book Code]:",i[1],"[Issue Daate]:",i[2],"[Deadline Date]:",i[3],"[Contact Number]:",i[4],"[Name]:",i[5])
+        p=input("Wanna return to selection menu?(Yes/No)")
+        if p=="Yes"or p=="yes":
+            issue()
+        else:
+            pass
+                
+            menu()
+    else:
+        print("Invalid response")
+        issue()
+   
+
+def submit():
+    o=int(input("Enter 1 to add submitted book,2 to remove books from submit section,3 to Fine someone"))
+    if o==1:
+        a=input("Enter Bookname")
+        b=int(input("Enter Bookcode"))
+        c=input("Enter Submit date")
+        d=input("Enter Deadline date")
+        e=input("Enter Contact Number")
+        f=input("Enter name")
+        data=(a,b,c,d,e,f)
+        sql='insert into submit values(%s,%s,%s,%s,%s,%s)'
+        co=mycon.cursor()
+        co.execute(sql,data)
+        mycon.commit()
+        print("Data Entered Successfully")
+        k=0
+        while k==0:
+            
+            j=("Present")
+            sql="Update availablebooks set presence='"+j+"'where Bookname Like '%"+a+"%'"
+            co=mycon.cursor()
+            co.execute(sql)
+            mycon.commit()
+            break
+        else:
+            print("Wrong Response")
+            submit()
+
+        p=input("Wanna return to selection menu?(Yes/No)")
+        if p=="Yes"or p=="yes":
+            submit()
+        else:
+            pass
+        menu()
+    
+    if o==2:
+        j=input("Enter name of the book to be removed")
+        sql=" delete from returned where Bookname='"+j+"'"
+        co=mycon.cursor()
+        co.execute(sql)
+        mycon.commit()
+        print("Done")
+        p=input("Wanna return to selection menu?(Yes/No)")
+        if p=="Yes"or p=="yes":
+            submit()
+                
+        else:
+            pass
+                
+            menu()
+    if o==3:
+        p=int(input("Enter 1 for delay,2 for wear and tear and 3 to access existing data:"))
+        if p==1:
+            b=input("Enter Bookname:")
+            e=int(input("Enter Bookcode:"))
+            f=input("Enter name of individual:")
+            d=input("Enter days after deadline:")
+            Fine=int(d)*15
+            k=str(Fine)
+            data=(f,b,e,d,k)
+            sql='insert into fines values(%s,%s,%s,%s,%s)'
+            co=mycon.cursor()
+            co.execute(sql,data)
+            mycon.commit()
+            
+        elif p==2:
+            b=input("Enter Bookname:")
+            e=int(input("Enter Bookcode:"))
+            f=input("Enter name of individual:")
+            d=("N\A")
+            Fine=input("MRP of the book")
+            data=(f,b,e,d,Fine)
+            sql='insert into fines(%s,%s,%s,%s,%s)'
+            co=mycon.cursor()
+            co.execute(sql,data)
+            mycon.commit()
+        elif p==3:
+             sql='select * from fines'
+             co=mycon.cursor()
+             co.execute(sql)
+             j=0
+
+             result=co.fetchall()
+             for z in result:
+                 j="#"
+             print(j,"[Name of individual]:",z[0],"[Book Name]:",z[1],"[Book Code]:",z[2],"[Delay]:",z[3],"[Fine]:",z[4])
+            
+        
+        q=input("Wanna return to selection menu?(Yes/No)")
+        if q=="Yes"or q=="yes":
+            submit()
+        else:
+            pass
+        menu()
+    else:
+        print("Invalid response")
+        submit()
+   
+
+
+def discard():
+    j=input("Enter name of the book to be removed")
+    sql=" delete from availablebooks where Bookname like '%"+j+"%'"
+    co=mycon.cursor()
+    co.execute(sql)
+    mycon.commit()
+    print("Done")
+    p=input("Wanna return to selection menu?(Yes/No)")
+    if p=="Yes"or p=="yes":
+        discard()
+    else:
+        pass
+    menu()
+    
+   
+            
+def menu():
+    print("""                                  Library Manager
+1. Check Available Books
+2. Issue Books
+3. Submit Books
+4. Employees
+5. Add Book
+6. Membership
+7. Find Book
+8. Discard Book
+9. Exit
+
+""")
+    ch=input("Enter the task no. written before the task:")
+    if (ch=='1'):
+        avail()
+    elif(ch=='2'):
+        issue()
+    elif(ch=='3'):
+        submit()
+    elif(ch=='4'):
+        emp() 
+    elif(ch=='5'):
+        addbook()
+    elif(ch=='6'):
+        members() 
+    elif(ch=='7'):
+        find()
+    elif(ch=='8'):
+        discard()
+    elif(ch=='9'):
+        exit()
+    else:
+        print("Wrong choice")
+        menu()
+
+def passwd():
+    pas=input("Enter password:")
+    if pas=="ssmv":
+        menu()
+    else:
+        print("Wrong password")
+        passwd()
+passwd()
