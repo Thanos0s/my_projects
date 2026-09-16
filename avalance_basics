@@ -1,0 +1,77 @@
+#what is consesus in blockchain 
+What is Consensus in Blockchain?
+
+Consensus is the process by which all the computers (nodes) in a blockchain network agree on what transactions are valid and what the current state of the blockchain should be.
+
+Think of it like a group decision:
+
+🧑‍🤝‍🧑 Many people have copies of the same notebook.
+Before adding a new page, everyone needs a way to agree that the information on that page is correct.
+
+In blockchain, consensus mechanisms provide that way.
+
+Why is consensus needed?
+
+Blockchain is decentralized, meaning there is no single central authority like a bank deciding:
+
+Which transactions are valid
+Who owns what
+Which block should be added next
+Whether someone is trying to spend the same funds twice
+
+Consensus helps the network agree without requiring a central authority.
+
+Common consensus mechanisms
+Consensus	How it works	Example
+Proof of Work (PoW)	Computers solve computational puzzles	Bitcoin
+Proof of Stake (PoS)	Validators stake cryptocurrency to participate	Ethereum
+Delegated Proof of Stake (DPoS)	Users delegate their stake to selected validators	Some PoS networks
+Proof of Authority (PoA)	Approved validators create/validate blocks	Private/permissioned chains
+Example: Proof of Stake
+
+Suppose 100 validators are participating.
+A user sends 10 ETH to another user.
+The transaction is broadcast to the network.
+A validator proposes a block containing the transaction.
+Other validators check the block.
+If the required consensus is reached, the block becomes part of the blockchain.
+The blockchain is updated across the network.
+
+So, in one line:
+
+Consensus = the method a decentralized blockchain uses to make its participants agree on the valid state of the network.
+
+Important: Consensus is not the same as encryption. Encryption protects information, while consensus helps the network agree on what is true/valid.
+
+#(Following the highway analogy, what would one want in a highway/blockchain?
+A
+Few lanes, meaning there will be no bottlenecks between cars/transactions going to the same place, meaning high throughput, and the highway is the longest possible, meaning cars/transactions will have to pay more tolls, meaning more profit.
+B
+Many lanes, meaning cars/transactions can go faster, meaning high throughput, and that the highway is the shortest possible, meaning cars/transactions go fast enough to their destination such that they don’t collide, meaning greatest time to finality
+C
+Many lanes, meaning multiple cars/transactions can go at the same time, meaning high throughput, and that the highway is the shortest possible, meaning cars/transactions reach faster to their destination, meaning least time to finality
+D
+Many lanes, meaning cars/transactions can go faster, meaning low throughput, and that the highway is the shortest possible, meaning cars/transactions go fast enough to their destination such that they don’t collide, meaning least time to finality.
+Correct
+We build L1s (which function as different lanes) as a way to achieve high throughput, and we use a fast consensus protocol (a short route) to achieve low time to finality.)
+
+##When does a validator in Avalanche finalize its decision?
+anss 
+After the preference is confirmed by the α-majority for β (Decision Threshold) consecutive rounds.
+Correct
+In Avalanche, a validator finalizes its decision after its preference is confirmed by the α-majority for β (Decision Threshold) consecutive rounds. It's not a single round process, it doesn't happen
+immediately when a conflict arises, and it doesn't require replies from all validators in the system.
+
+##What is the role of validators in the event of conflicting transactions?
+ans 
+
+Validators collectively decide on which of the two conflicting transactions will be accepted by all validators and determine the next state.
+ans
+In the event of conflicting transactions, validators have to collectively decide on which of the two conflicting transactions will be accepted by all validators and determine the next state. They do not act based on personal benefits, they don't 
+reject all conflicting transactions, and they don't create new transactions to resolve conflicts.
+
+#What happens during a single round of querying in the Avalanche Consensus protocol?
+ans
+A validator randomly selects a small subset of validators and asks for their current preference
+In each round of Avalanche Consensus, a validator randomly selects a small subset (sample) of other validators and queries them for their 
+current preference. This is more efficient than broadcasting to the entire network.
